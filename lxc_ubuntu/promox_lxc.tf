@@ -1,7 +1,7 @@
 resource "proxmox_lxc" "lxc_containers" {
   for_each        = var.lxc_containers
   target_node     = each.value.target_node
-  hostname        = each.value.container_name
+  hostname        = each.key
   ostemplate      = each.value.ostemplate
   ssh_public_keys = var.ssh_public_keys
   

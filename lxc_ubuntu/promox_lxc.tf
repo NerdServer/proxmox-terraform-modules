@@ -1,20 +1,8 @@
-provider "random" {}
-
-locals {
-  container_names = { for i, container in var.lxc_containers : tostring(i) => element(random_pet.container_name.*.id, i) }
-}
-
-resource "random_pet" "container_name" {
-  count = length(var.lxc_containers)
-  length = 2
-  separator = "-"
-}
-
 resource "proxmox_lxc" "lxc_containers" {
-  for_each     = var.lxc_containers
-  target_node  = each.value.target_node
-  hostname     = local.container_names[tostring(each.key)]
-  ostemplate   = each.value.ostemplate
+  for_each        = var.lxc_containers
+  target_node     = each.value.target_node
+  hostname        = each.value.container_name
+  ostemplate      = each.value.ostemplate
   ssh_public_keys = var.ssh_public_keys
   
   rootfs {
@@ -23,11 +11,12 @@ resource "proxmox_lxc" "lxc_containers" {
   }
 
   network {
-        name = "eth0"
-        bridge = "vmbr0"
-        ip = "dhcp"
-        ip6 = "dhcp"
-       
+    name   = eth0
+    bridge = var.network_bridge
+    ip     = var.network_ip
+    gateway = var.network_gateway
+    subnet = var.network_subnet
   }
+  
   unprivileged = false
 }

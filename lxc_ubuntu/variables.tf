@@ -65,19 +65,3 @@ variable "minio_endpoint" {
     default     = null
 }
 
-    variable "ip" {
-        type        = string
-        default     = null
-          }
-
-    variable "gw" {
-            type = string
-          }
-
-    variable "tag" {
-            type = string
-          }
-
-    variable "cipassword" {
-            type = string
-          }

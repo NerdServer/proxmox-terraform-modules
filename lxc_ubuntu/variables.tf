@@ -47,13 +47,6 @@ variable "ssh_public_keys" {
     default     = null
 }
 
-
-variable "minio_access_key" {
-    type        = string
-    default     = null
-}
-
-
 variable "minio_secret_key" {
     type        = string
     default     = null

@@ -7,7 +7,6 @@ variable "lxc_containers" {
     ip              = string
     gw              = string
     tag             = string
-    password        = string
   }))
 }
 

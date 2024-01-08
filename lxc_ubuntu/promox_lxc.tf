@@ -22,5 +22,5 @@ resource "proxmox_lxc" "lxc_containers" {
     tag    = each.value.tag
   }
   
-  unprivileged = false
+  unprivileged = true
 }

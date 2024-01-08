@@ -4,6 +4,8 @@ resource "proxmox_lxc" "lxc_containers" {
   hostname        = each.key
   ostemplate      = each.value.ostemplate
   ssh_public_keys = var.ssh_public_keys
+  password        = var.cipassword
+     
   
   rootfs {
     storage = each.value.rootfs_storage
@@ -13,7 +15,9 @@ resource "proxmox_lxc" "lxc_containers" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "dhcp"
+    ip     = each.value.ip
+    gw     = each.value.gw
+    tag    = each.value.tag
   }
   
   unprivileged = false

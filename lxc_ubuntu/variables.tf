@@ -63,12 +63,12 @@ variable "minio_endpoint" {
 
 variable "network_bridge" {
     type        = string
-    default     = eth0
+    default     = "eth0"
   }
 
   variable "network_ip" {
     type        = string
-    default     = dhcp
+    default     = "dhcp"
     }
 
     variable "network_gateway" {

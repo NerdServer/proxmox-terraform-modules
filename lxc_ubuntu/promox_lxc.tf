@@ -12,10 +12,8 @@ resource "proxmox_lxc" "lxc_containers" {
 
   network {
     name   = "eth0"
-    bridge = var.network_bridge
-    ip     = var.network_ip
-    gateway = var.network_gateway
-    subnet = var.network_subnet
+    bridge = "vmbr0"
+    ip     = "dhcp"
   }
   
   unprivileged = false

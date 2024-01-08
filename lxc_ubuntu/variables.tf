@@ -3,6 +3,7 @@ variable "lxc_containers" {
     target_node     = string
     rootfs_storage  = string
     rootfs_size     = string
+    ostemplate      = string
   }))
 }
 

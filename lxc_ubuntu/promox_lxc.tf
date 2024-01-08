@@ -4,7 +4,7 @@ resource "proxmox_lxc" "lxc_containers" {
   hostname        = each.key
   ostemplate      = each.value.ostemplate
   ssh_public_keys = var.ssh_public_keys
-  password        = each.value.password
+  password        = var.cipassword
      
   features {
     nesting = true

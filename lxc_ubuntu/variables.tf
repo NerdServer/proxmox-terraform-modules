@@ -65,3 +65,7 @@ variable "minio_endpoint" {
     default     = null
 }
 
+variable "cipassword" {
+    type        = string
+    default     = null
+}

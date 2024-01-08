@@ -4,6 +4,10 @@ variable "lxc_containers" {
     rootfs_storage  = string
     rootfs_size     = string
     ostemplate      = string
+    ip              = string
+    gw              = string
+    tag             = string
+    password        = string
   }))
 }
 
@@ -60,26 +64,6 @@ variable "minio_endpoint" {
     type        = string
     default     = null
 }
-
-variable "network_bridge" {
-    type        = string
-    default     = "eth0"
-  }
-
-  variable "network_ip" {
-    type        = string
-    default     = "dhcp"
-    }
-
-    variable "network_gateway" {
-        type        = string
-        default     = null
-       }
-
-    variable "network_subnet" {
-        type        = string
-        default     = null
-       }
 
     variable "ip" {
         type        = string

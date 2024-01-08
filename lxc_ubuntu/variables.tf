@@ -81,19 +81,19 @@ variable "network_bridge" {
         default     = null
        }
 
-       variable "ip" {
+    variable "ip" {
         type        = string
         default     = null
           }
 
-          variable "gw" {
+    variable "gw" {
             type = string
           }
 
-          variable "tag" {
+    variable "tag" {
             type = string
           }
 
-          variable "cipassword" {
+    variable "cipassword" {
             type = string
           }

@@ -6,7 +6,9 @@ resource "proxmox_lxc" "lxc_containers" {
   ssh_public_keys = var.ssh_public_keys
   password        = var.cipassword
      
-  
+  features {
+    nesting = true
+  }
   rootfs {
     storage = each.value.rootfs_storage
     size    = each.value.rootfs_size

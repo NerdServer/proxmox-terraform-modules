@@ -71,3 +71,14 @@ variable "memory" {
     type        = string
     default     = null
 }
+
+variable "start" {
+    type        = bool
+    default     = true
+}
+
+variable "onboot"{
+    type        = bool
+    default     = true
+
+}

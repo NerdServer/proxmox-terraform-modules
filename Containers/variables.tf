@@ -61,3 +61,13 @@ variable "cipassword" {
     type        = string
     default     = null
 }
+
+variable "cores" {
+    type        = string
+    default     = null
+}
+
+variable "memory" {
+    type        = string
+    default     = null
+}

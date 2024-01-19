@@ -6,7 +6,7 @@ variable "ssh_user" {
   type        = string
 }
 
-variable "ssh_pub_key" {
+variable "ssh_pub_keys" {
   type        = string
 }
 

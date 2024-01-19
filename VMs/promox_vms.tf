@@ -37,7 +37,7 @@ resource "proxmox_vm_qemu" "vms" {
   ipconfig0 = "ip=${each.value.ip}/24,gw=${each.value.gw}"
   ipconfig1 = "ip=${each.value.ip2}/24"
   ssh_user  = var.ssh_user
-  sshkeys   = var.ssh_pub_key
+  sshkeys   = var.ssh_pub_keys
   ciuser = var.ciuser
   cipassword = var.cipassword
 

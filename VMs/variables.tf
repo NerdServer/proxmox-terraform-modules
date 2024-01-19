@@ -15,10 +15,6 @@ variable "vms" {
 }
 
 
-variable "source_template" {
-  type = string
-  
-}
 
 variable "ciuser" {
   type = string

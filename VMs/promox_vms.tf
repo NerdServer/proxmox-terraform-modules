@@ -9,11 +9,10 @@ resource "proxmox_vm_qemu" "vms" {
   sockets     = "1"
   cores       = each.value.vcpu
   cpu         = "host"
-  clone       = var.source_template
+  clone       = each.value.source_template
   agent       = 1
   scsihw      = "virtio-scsi-single"
   cloudinit_cdrom_storage = "pve-iscsi-lun0"
-  source_template = each.value.source_template
 
  disks {
     virtio{

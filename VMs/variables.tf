@@ -38,6 +38,3 @@ variable "proxmox_api_token_secret" {
   type = string
 }
 
-variable "source_template" {
-  type = string
-}

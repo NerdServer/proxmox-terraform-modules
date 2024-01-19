@@ -13,6 +13,7 @@ resource "proxmox_vm_qemu" "vms" {
   agent       = 1
   scsihw      = "virtio-scsi-single"
   cloudinit_cdrom_storage = "pve-iscsi-lun0"
+  source_template = var.source_template
 
  disks {
     virtio{

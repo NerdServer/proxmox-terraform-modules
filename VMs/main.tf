@@ -1,9 +1,9 @@
 terraform {
 
-  backend "s3" { 
+   backend "s3" { 
     bucket = "terraform-tstates" 
     region = "main" 
-    key = "Containers/tf.tfstate" 
+    key = "VMs/tf.tfstate" 
     skip_region_validation = true 
     skip_credentials_validation = true 
     skip_requesting_account_id = true 
@@ -13,21 +13,21 @@ terraform {
     skip_s3_checksum = true 
     
     } 
+
     
   required_providers {
     proxmox = {
-      source  = "TheGameProfi/proxmox"
-      version = "2.10.0"
+      source  = "thegameprofi/proxmox"
+      version = ">= 2.10.0"
     }
   }
+  required_version = ">= 0.14"
 }
+  
+
 
 provider "proxmox" {
   pm_api_url          = var.proxmox_api_url
   pm_api_token_id     = var.proxmox_api_token_id
   pm_api_token_secret = var.proxmox_api_token_secret
-
-  # (Optional) Skip TLS Verification
-  pm_tls_insecure = true
 }
-

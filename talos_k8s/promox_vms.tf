@@ -72,9 +72,10 @@ data "talos_machine_configuration" "machineconfig_cp" {
 # Apply Configuration for Control Plane
 resource "talos_machine_configuration_apply" "cp_config_apply" {
   depends_on                  = [proxmox_virtual_environment_vm.vm[for k, v in var.vms : k if contains(v.name, "cp")][0]]
+  node                        = lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "cp")][0], "ip_address")
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig_cp.machine_configuration
-  count                       = 1
+  }
   node                        = lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "cp")][0], "ip_address")
 }
 
@@ -105,7 +106,61 @@ resource "talos_machine_bootstrap" "bootstrap" {
   node                 = lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "cp")][0], "ip_address")
 }
 
+# Talos Cluster Health# Talos Machine Configuration for Control Plane
+data "talos_machine_configuration" "machineconfig_cp" {
+  cluster_name     = var.cluster_name
+  cluster_endpoint = "https://${lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "cp")][0])["ip_address"]}:6443"
+  machine_type     = "controlplane"
+  machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
+}
+
+# Apply Configuration for Control Plane
+resource "talos_machine_configuration_apply" "cp_config_apply" {
+  depends_on                  = [proxmox_virtual_environment_vm.vm["cp"]]
+  client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
+  machine_configuration_input = data.talos_machine_configuration.machineconfig_cp.machine_configuration
+  count                       = 1
+  node                        = lookup(var.vms["cp"], "ip_address")
+}
+
+# Talos Machine Configuration for Workers
+data "talos_machine_configuration" "machineconfig_worker" {
+  cluster_name     = var.cluster_name
+  cluster_endpoint = "https://${lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "worker")][0])["ip_address"]}:6443"
+  machine_type     = "worker"
+  machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
+}
+
+# Apply Configuration for Workers
+resource "talos_machine_configuration_apply" "worker_config_apply" {
+  depends_on                  = [proxmox_virtual_environment_vm.vm["worker"]]
+  client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
+  machine_configuration_input = data.talos_machine_configuration.machineconfig_worker.machine_configuration
+  count                       = 1
+  node                        = lookup(var.vms["worker"], "ip_address")
+}
+
 # Talos Cluster Health
+data "talos_cluster_health" "health" {
+  depends_on           = [talos_machine_configuration_apply.cp_config_apply, talos_machine_configuration_apply.worker_config_apply]
+  client_configuration = data.talos_client_configuration.talosconfig.client_configuration
+  control_plane_nodes  = [lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "cp")][0])["ip_address"]]
+  worker_nodes         = [lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "worker")][0])["ip_address"]]
+  endpoints            = data.talos_client_configuration.talosconfig.endpoints
+}
+
+# Talos Cluster Kubeconfig
+data "talos_cluster_kubeconfig" "kubeconfig" {
+  depends_on           = [talos_machine_bootstrap.bootstrap, data.talos_cluster_health.health]
+  client_configuration = talos_machine_secrets.machine_secrets.client_configuration
+  node                 = lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "cp")][0])["ip_address"]
+}
+
+# Outputs
+output "talosconfig" {
+  value     = data.talos_client_configuration.talosconfig.talos_config
+  sensitive = true
+}
 data "talos_cluster_health" "health" {
   depends_on           = [talos_machine_configuration_apply.cp_config_apply, talos_machine_configuration_apply.worker_config_apply]
   client_configuration = data.talos_client_configuration.talosconfig.client_configuration

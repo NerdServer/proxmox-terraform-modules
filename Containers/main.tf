@@ -2,7 +2,7 @@ terraform {
 
   backend "s3" { 
     bucket = "terraform-tstates" 
-    region = "main" 
+    region = "us-central" 
     key = "Containers/tf.tfstate" 
     skip_region_validation = true 
     skip_credentials_validation = true 
@@ -17,7 +17,7 @@ terraform {
   required_providers {
     proxmox = {
       source  = "TheGameProfi/proxmox"
-      version = "2.9.16"
+      version = "2.10.0"
     }
   }
 }

@@ -75,7 +75,7 @@ resource "talos_machine_configuration_apply" "cp_config_apply" {
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig_cp.machine_configuration
   count                       = 1
-  node                        = lookup(var.vms[for k, v in var.vms : k if contains(v.name, "cp")][0], "ip_address")
+  node                        = lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "cp")][0], "ip_address")
 }
 
 # Talos Machine Configuration for Workers
@@ -95,14 +95,14 @@ resource "talos_machine_configuration_apply" "worker_config_apply" {
   client_configuration        = talos_machine_secrets.machine_secrets.client_configuration
   machine_configuration_input = data.talos_machine_configuration.machineconfig_worker.machine_configuration
   count                       = 1
-  node                        = lookup(var.vms[for k, v in var.vms : k if contains(v.name, "worker")][0], "ip_address")
+  node                        = lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "worker")][0], "ip_address")
 }
 
 # Talos Bootstrap
 resource "talos_machine_bootstrap" "bootstrap" {
   depends_on           = [talos_machine_configuration_apply.cp_config_apply]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  node                 = lookup(var.vms[for k, v in var.vms : k if contains(v.name, "cp")][0], "ip_address")
+  node                 = lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "cp")][0], "ip_address")
 }
 
 # Talos Cluster Health
@@ -118,7 +118,7 @@ data "talos_cluster_health" "health" {
 data "talos_cluster_kubeconfig" "kubeconfig" {
   depends_on           = [talos_machine_bootstrap.bootstrap, data.talos_cluster_health.health]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
-  node                 = lookup(var.vms[for k, v in var.vms : k if contains(v.name, "cp")][0], "ip_address")
+  node                 = lookup(var.vms, [for k, v in var.vms : k if contains(v.name, "cp")][0], "ip_address")
 }
 
 # Outputs

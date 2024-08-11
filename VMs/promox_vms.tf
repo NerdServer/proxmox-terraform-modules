@@ -19,7 +19,7 @@ resource "proxmox_vm_qemu" "vms" {
       virtio0 {
         disk {
         size = each.value.disk_size
-        storage = "pve-iscsi-lun0"
+        storage = each.value.storage
         }
       }
     }

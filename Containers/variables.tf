@@ -1,16 +1,16 @@
 variable "lxc_containers" {
   type = map(object({
-    target_node     = string
-    rootfs_storage  = string
-    rootfs_size     = string
-    ostemplate      = string
+    target_node     = optional(string, "nerd-pve04")
+    rootfs_storage  = optional(string, "pve-iscsi-lun0")
+    rootfs_size     = optional(string, "10G")
+    ostemplate      = optional(string, "ISO:vztmpl/ubuntu-22.04-standard_22.04-1_amd64.tar.zst")
     ip              = string
-    gw              = string
-    tag             = string
-    start           = bool
-    onboot          = bool
-    cores           = string
-    memory          = string
+    gw              = optional(string, "10.0.40.1")
+    tag             = optional(string, "40")
+    start           = optional(bool, true)
+    onboot          = optional(bool, true)
+    cores           = optional(string, "1")
+    memory          = optional(string, "512")
   }))
 }
 

@@ -11,7 +11,18 @@ variable "ssh_pub_keys" {
 }
 
 variable "vms" {
-  type        = map(any)
+  type = map(object({
+    target_node     = string
+    vcpu            = optional(string, "4")
+    memory          = optional(string, "16384")
+    disk_size       = optional(string, "30")
+    storage         = optional(string, "ssd1")
+    name            = string
+    ip              = string
+    gw              = optional(string, "10.0.40.1")
+    tags            = optional(string, "ubuntu")
+    source_template = optional(string, "ubuntu22-04-template")
+  }))
 }
 
 

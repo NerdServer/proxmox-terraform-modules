@@ -11,6 +11,10 @@ terraform {
     insecure = true 
     skip_metadata_api_check = true 
     skip_s3_checksum = true 
+
+    endpoints {
+      s3 = "http://10.0.0.243:3900"
+    }
     
     } 
 

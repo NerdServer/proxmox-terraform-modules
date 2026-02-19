@@ -13,7 +13,7 @@ terraform {
     skip_s3_checksum = true 
     
     endpoints = {
-      s3 = "http://10.0.50.4:30186/"
+      s3 = "http://10.0.50.4:30188/"
     }
     } 
     

@@ -2,7 +2,7 @@ terraform {
 
   backend "s3" { 
     bucket = "terraform" 
-    region = "us-central" 
+    region = "garage"
     key = "Containers/tf.tfstate" 
     skip_region_validation = true 
     skip_credentials_validation = true 

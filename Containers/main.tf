@@ -12,7 +12,7 @@ terraform {
     skip_metadata_api_check = true 
     skip_s3_checksum = true 
     
-    endpoints {
+    endpoints = {
       s3 = "http://10.0.50.4:30186/"
     }
     } 

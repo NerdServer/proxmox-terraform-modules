@@ -1,7 +1,7 @@
 terraform {
 
   backend "s3" { 
-    bucket = "terraform-tstates" 
+    bucket = "terraform" 
     region = "us-central" 
     key = "Containers/tf.tfstate" 
     skip_region_validation = true 
@@ -13,7 +13,7 @@ terraform {
     skip_s3_checksum = true 
     
     endpoints {
-      s3 = "http://10.0.0.243:3900"
+      s3 = "http://10.0.50.4:30186/"
     }
     } 
     

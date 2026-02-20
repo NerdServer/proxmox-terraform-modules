@@ -15,6 +15,11 @@ resource "proxmox_vm_qemu" "vms" {
   agent       = 1
   scsihw      = "virtio-scsi-single"
 
+  serial {
+    id   = 0
+    type = "socket"
+  }
+
  disks {
     ide {
       ide3 {

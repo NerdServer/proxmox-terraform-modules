@@ -12,14 +12,20 @@ resource "proxmox_vm_qemu" "vms" {
   clone       = each.value.source_template
   agent       = 1
   scsihw      = "virtio-scsi-single"
-  cloudinit_cdrom_storage = "pve-iscsi-lun0"
 
  disks {
-    virtio{
+    ide {
+      ide3 {
+        cloudinit {
+          storage = "pve-iscsi-lun0"
+        }
+      }
+    }
+    virtio {
       virtio0 {
         disk {
-        size = each.value.disk_size
-        storage = each.value.storage
+          size = each.value.disk_size
+          storage = each.value.storage
         }
       }
     }
@@ -28,6 +34,7 @@ resource "proxmox_vm_qemu" "vms" {
 
  
   network {
+    id = 0
     model  = "virtio"
     bridge = "vmbr0"
     tag = "40"

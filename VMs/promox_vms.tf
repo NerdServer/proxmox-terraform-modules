@@ -8,7 +8,7 @@ resource "proxmox_vm_qemu" "vms" {
   memory      = each.value.memory
   sockets     = "1"
   cores       = each.value.vcpu
-  cpu         = "host"
+  cpu_type    = "host"
   clone       = each.value.source_template
   agent       = 1
   scsihw      = "virtio-scsi-single"

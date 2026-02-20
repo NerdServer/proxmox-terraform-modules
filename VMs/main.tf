@@ -1,7 +1,7 @@
 terraform {
 
    backend "s3" { 
-    bucket = "terraform" 
+    bucket = "terraform-tstates" 
     region = "garage"
     key = "VMs/tf.tfstate" 
     skip_region_validation = true 

@@ -6,9 +6,11 @@ resource "proxmox_vm_qemu" "vms" {
   os_type     = "cloud-init"
   full_clone  = true
   memory      = each.value.memory
-  sockets     = "1"
-  cores       = each.value.vcpu
-  cpu_type    = "host"
+  cpu {
+    sockets = 1
+    cores   = each.value.vcpu
+    type    = "host"
+  }
   clone       = each.value.source_template
   agent       = 1
   scsihw      = "virtio-scsi-single"

@@ -13,7 +13,7 @@ resource "unifi_user" "vm_client" {
   mac              = local.mac[each.key]
   name             = each.value.name
   fixed_ip         = each.value.ip != "dhcp" && each.value.ip != "0.0.0.0" ? each.value.ip : null
-  local_dns_record = each.value.name
+  local_dns_record = each.value.ip != "dhcp" && each.value.ip != "0.0.0.0" ? each.value.name : null
 }
 
 resource "proxmox_vm_qemu" "vms" {
@@ -61,8 +61,7 @@ resource "proxmox_vm_qemu" "vms" {
   network {
     id      = 0
     model   = "virtio"
-    bridge  = "vmbr0"
-    tag     = "40"
+    bridge  = "vlan100"
     macaddr = local.mac[each.key]
   }
 

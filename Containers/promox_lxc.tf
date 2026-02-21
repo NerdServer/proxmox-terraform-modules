@@ -13,7 +13,7 @@ resource "unifi_user" "lxc_client" {
   mac              = local.lxc_mac[each.key]
   name             = each.key
   fixed_ip         = each.value.ip != "dhcp" && each.value.ip != "0.0.0.0" && each.value.ip != "" ? split("/", each.value.ip)[0] : null
-  local_dns_record = each.key
+  local_dns_record = each.value.ip != "dhcp" && each.value.ip != "0.0.0.0" && each.value.ip != "" ? each.key : null
 }
 
 resource "proxmox_lxc" "lxc_containers" {

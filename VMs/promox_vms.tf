@@ -19,7 +19,7 @@ resource "unifi_user" "vm_client" {
 resource "proxmox_vm_qemu" "vms" {
   for_each    = var.vms
   name        = each.value.name
-  desc        = each.value.name
+  description = each.value.name
   target_node = each.value.target_node
   os_type     = "cloud-init"
   full_clone  = true

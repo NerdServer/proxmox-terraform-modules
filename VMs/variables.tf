@@ -52,3 +52,14 @@ variable "proxmox_api_token_secret" {
 # variable "storage" {
 #   type = string
 # }
+variable "unifi_username" {
+  type = string
+}
+
+variable "unifi_password" {
+  type = string
+}
+
+variable "unifi_api" {
+  type = string
+}

@@ -24,6 +24,7 @@ resource "proxmox_vm_qemu" "vms" {
   os_type     = "cloud-init"
   full_clone  = true
   memory      = each.value.memory
+  boot        = "order=scsi0;ide3;net0"
   cpu {
     sockets = 1
     cores   = each.value.vcpu
@@ -46,10 +47,10 @@ resource "proxmox_vm_qemu" "vms" {
         }
       }
     }
-    virtio {
-      virtio0 {
+    scsi {
+      scsi0 {
         disk {
-          size = each.value.disk_size
+          size    = each.value.disk_size
           storage = each.value.storage
         }
       }

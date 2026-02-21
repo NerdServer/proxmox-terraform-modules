@@ -21,7 +21,7 @@ variable "vms" {
     ip              = string
     gw              = optional(string, "10.0.40.1")
     tags            = optional(string, "ubuntu")
-    source_template = optional(string, "ubuntu22-04-template")
+    source_template = optional(string, "ubuntu22-04-server-template")
   }))
 }
 

@@ -1,3 +1,21 @@
+resource "random_id" "lxc_mac" {
+  for_each    = var.lxc_containers
+  byte_length = 3
+}
+
+locals {
+  # Prefix with 'x2' valid KVM/LXC hex prefix + random bytes
+  lxc_mac = { for k, v in var.lxc_containers : k => "02:00:00:${substr(random_id.lxc_mac[k].hex, 0, 2)}:${substr(random_id.lxc_mac[k].hex, 2, 2)}:${substr(random_id.lxc_mac[k].hex, 4, 2)}" }
+}
+
+resource "unifi_user" "lxc_client" {
+  for_each         = var.lxc_containers
+  mac              = local.lxc_mac[each.key]
+  name             = each.key
+  fixed_ip         = each.value.ip != "dhcp" && each.value.ip != "0.0.0.0" && each.value.ip != "" ? split("/", each.value.ip)[0] : null
+  local_dns_record = each.key
+}
+
 resource "proxmox_lxc" "lxc_containers" {
   for_each        = var.lxc_containers
   target_node     = each.value.target_node
@@ -22,9 +40,9 @@ resource "proxmox_lxc" "lxc_containers" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = each.value.ip
-    gw     = each.value.gw
+    ip     = "dhcp"
     tag    = each.value.tag
+    hwaddr = local.lxc_mac[each.key]
   }
   
   unprivileged = true

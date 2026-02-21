@@ -70,3 +70,15 @@ variable "cores" {
     type        = string
     default     = null
 }
+
+variable "unifi_username" {
+  type = string
+}
+
+variable "unifi_password" {
+  type = string
+}
+
+variable "unifi_api" {
+  type = string
+}
